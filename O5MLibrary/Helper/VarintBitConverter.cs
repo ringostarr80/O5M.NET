@@ -2,6 +2,9 @@
 
 namespace O5M.Helper
 {
+	/// <summary>
+	/// Varint bit converter.
+	/// </summary>
 	public static class VarintBitConverter
 	{
 		/// <summary>

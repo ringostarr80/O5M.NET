@@ -8,6 +8,9 @@ using OSMDataPrimitives;
 
 namespace O5M
 {
+	/// <summary>
+	/// O5M Reader.
+	/// </summary>
 	public class O5MReader : O5MBase, IDisposable
 	{
 		private string _header = string.Empty;
@@ -21,23 +24,83 @@ namespace O5M
 		private bool _skipRelations = false;
 		private bool _stop = false;
 
+		/// <summary>
+		/// Gets the O5M header string.
+		/// </summary>
+		/// <value>The header.</value>
 		public string Header { get { return this._header; } }
+		/// <summary>
+		/// Gets the O5M file timestamp.
+		/// </summary>
+		/// <value>The file timestamp.</value>
 		public DateTime? FileTimestamp { get { return this._fileTimestamp; } }
+		/// <summary>
+		/// Gets the minimum latitude of the O5M data.
+		/// </summary>
+		/// <value>The latitude minimum.</value>
 		public double LatitudeMin { get { return this._latitudeMin; } }
+		/// <summary>
+		/// Gets the maximum latitude of the O5M data.
+		/// </summary>
+		/// <value>The latitude max.</value>
 		public double LatitudeMax { get { return this._latitudeMax; } }
+		/// <summary>
+		/// Gets the minimum longitude of the O5M data.
+		/// </summary>
+		/// <value>The longitude minimum.</value>
 		public double LongitudeMin { get { return this._longitudeMin; } }
+		/// <summary>
+		/// Gets the maximum longitude of the O5M data.
+		/// </summary>
+		/// <value>The longitude max.</value>
 		public double LongitudeMax { get { return this._longitudeMax; } }
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="T:O5M.O5MReader"/> skips all nodes.
+		/// </summary>
+		/// <value><c>true</c> if skip nodes; otherwise, <c>false</c>.</value>
 		public bool SkipNodes { get { return this._skipNodes; } set { this._skipNodes = value; } }
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="T:O5M.O5MReader"/> skips all ways.
+		/// </summary>
+		/// <value><c>true</c> if skip ways; otherwise, <c>false</c>.</value>
 		public bool SkipWays { get { return this._skipWays; } set { this._skipWays = value; } }
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="T:O5M.O5MReader"/> skips all relations.
+		/// </summary>
+		/// <value><c>true</c> if skip relations; otherwise, <c>false</c>.</value>
 		public bool SkipRelations { get { return this._skipRelations; } set { this._skipRelations = value; } }
 
+		/// <summary>
+		/// The found node action.
+		/// </summary>
 		public Action<OSMNode> FoundNode;
-		public Action<OSMNode, byte[], ElementDebugInfos> FoundNodeRaw;
+		/// <summary>
+		/// The found way action.
+		/// </summary>
 		public Action<OSMWay> FoundWay;
-		public Action<OSMWay, byte[], ElementDebugInfos> FoundWayRaw;
+		/// <summary>
+		/// The found relation action.
+		/// </summary>
 		public Action<OSMRelation> FoundRelation;
+#if DEBUG
+		/// <summary>
+		/// The found node raw action.
+		/// </summary>
+		public Action<OSMNode, byte[], ElementDebugInfos> FoundNodeRaw;
+		/// <summary>
+		/// The found way raw action.
+		/// </summary>
+		public Action<OSMWay, byte[], ElementDebugInfos> FoundWayRaw;
+		/// <summary>
+		/// The found relation raw action.
+		/// </summary>
 		public Action<OSMRelation, byte[], ElementDebugInfos> FoundRelationRaw;
+#endif
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:O5M.O5MReader"/> class.
+		/// </summary>
+		/// <param name="filename">Filename.</param>
 		public O5MReader(string filename)
 		{
 			if(!filename.EndsWith(".o5m", StringComparison.InvariantCulture)) {
@@ -50,6 +113,10 @@ namespace O5M
 			this.Init(File.OpenRead(filename));
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:O5M.O5MReader"/> class.
+		/// </summary>
+		/// <param name="stream">Stream.</param>
 		public O5MReader(Stream stream)
 		{
 			this.Init(stream);
@@ -84,11 +151,22 @@ namespace O5M
 			this.TryParseBoundingBox(this._stream);
 		}
 
+		/// <summary>
+		/// Releases unmanaged resources and performs other cleanup operations before the <see cref="T:O5M.O5MReader"/> is
+		/// reclaimed by garbage collection.
+		/// </summary>
 		~O5MReader()
 		{
 			this.Dispose();
 		}
 
+		/// <summary>
+		/// Releases all resource used by the <see cref="T:O5M.O5MReader"/> object.
+		/// </summary>
+		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:O5M.O5MReader"/>. The
+		/// <see cref="Dispose"/> method leaves the <see cref="T:O5M.O5MReader"/> in an unusable state. After calling
+		/// <see cref="Dispose"/>, you must release all references to the <see cref="T:O5M.O5MReader"/> so the garbage
+		/// collector can reclaim the memory that the <see cref="T:O5M.O5MReader"/> was occupying.</remarks>
 		public void Dispose()
 		{
 			if(this._stream != null) {
@@ -97,6 +175,10 @@ namespace O5M
 			}
 		}
 
+		/// <summary>
+		/// On node found.
+		/// </summary>
+		/// <param name="node">Node.</param>
 		protected void OnNodeFound(OSMNode node)
 		{
 			if(this.FoundNode != null) {
@@ -105,6 +187,12 @@ namespace O5M
 		}
 
 #if DEBUG
+		/// <summary>
+		/// On node found.
+		/// </summary>
+		/// <param name="node">Node.</param>
+		/// <param name="rawData">Raw data.</param>
+		/// <param name="infos">Infos.</param>
 		protected void OnNodeFound(OSMNode node, byte[] rawData, ElementDebugInfos infos)
 		{
 			if(this.FoundNodeRaw != null) {
@@ -113,6 +201,10 @@ namespace O5M
 		}
 #endif
 
+		/// <summary>
+		/// On way found.
+		/// </summary>
+		/// <param name="way">Way.</param>
 		protected void OnWayFound(OSMWay way)
 		{
 			if(this.FoundWay != null) {
@@ -121,6 +213,12 @@ namespace O5M
 		}
 
 #if DEBUG
+		/// <summary>
+		/// On way found.
+		/// </summary>
+		/// <param name="way">Way.</param>
+		/// <param name="rawData">Raw data.</param>
+		/// <param name="infos">Infos.</param>
 		protected void OnWayFound(OSMWay way, byte[] rawData, ElementDebugInfos infos)
 		{
 			if(this.FoundWayRaw != null) {
@@ -129,6 +227,10 @@ namespace O5M
 		}
 #endif
 
+		/// <summary>
+		/// On relation found.
+		/// </summary>
+		/// <param name="relation">Relation.</param>
 		protected void OnRelationFound(OSMRelation relation)
 		{
 			if(this.FoundRelation != null) {
@@ -137,6 +239,12 @@ namespace O5M
 		}
 
 #if DEBUG
+		/// <summary>
+		/// On relation found.
+		/// </summary>
+		/// <param name="relation">Relation.</param>
+		/// <param name="rawData">Raw data.</param>
+		/// <param name="infos">Infos.</param>
 		protected void OnRelationFound(OSMRelation relation, byte[] rawData, ElementDebugInfos infos)
 		{
 			if(this.FoundRelationRaw != null) {
@@ -193,6 +301,9 @@ namespace O5M
 			this._latitudeMax = VarInt.ParseInt64(buffer, ref offset) / POINT_DIVIDER;
 		}
 
+		/// <summary>
+		/// Start reading and processing O5M data.
+		/// </summary>
 		public void Start()
 		{
 			this.Reset();
@@ -306,6 +417,9 @@ namespace O5M
 			this._stop = false;
 		}
 
+		/// <summary>
+		/// Stop reading and processing O5M data.
+		/// </summary>
 		public void Stop()
 		{
 			this._stop = true;

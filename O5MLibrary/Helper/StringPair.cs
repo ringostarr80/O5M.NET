@@ -5,8 +5,15 @@ using System.Text;
 
 namespace O5M.Helper
 {
+	/// <summary>
+	/// String pair.
+	/// </summary>
 	public static class StringPair
 	{
+		/// <summary>
+		/// Parse the specified stream.
+		/// </summary>
+		/// <param name="stream">Stream.</param>
 		public static string[] Parse(Stream stream)
 		{
 			var pair = new string[] { string.Empty, string.Empty };
@@ -35,12 +42,21 @@ namespace O5M.Helper
 			return pair;
 		}
 
+		/// <summary>
+		/// Parse the specified bytes.
+		/// </summary>
+		/// <param name="bytes">Bytes.</param>
 		public static KeyValuePair<string, string>? Parse(byte[] bytes)
 		{
 			int offset = 0;
 			return Parse(bytes, ref offset);
 		}
 
+		/// <summary>
+		/// Parse the specified bytes and offset.
+		/// </summary>
+		/// <param name="bytes">Bytes.</param>
+		/// <param name="offset">Offset.</param>
 		public static KeyValuePair<string, string>? Parse(byte[] bytes, ref int offset)
 		{
 			var keyValuePair = ParseToByteArrayPair(bytes, ref offset);
@@ -50,6 +66,11 @@ namespace O5M.Helper
 			return new KeyValuePair<string, string>(key, value);
 		}
 
+		/// <summary>
+		/// Parses to byte array pair.
+		/// </summary>
+		/// <returns>The to byte array pair.</returns>
+		/// <param name="stream">Stream.</param>
 		public static KeyValuePair<byte[], byte[]>? ParseToByteArrayPair(Stream stream)
 		{
 			var readByte = stream.ReadByte();
@@ -88,12 +109,23 @@ namespace O5M.Helper
 			return new KeyValuePair<byte[], byte[]>(key, value);
 		}
 
+		/// <summary>
+		/// Parses to byte array pair.
+		/// </summary>
+		/// <returns>The to byte array pair.</returns>
+		/// <param name="bytes">Bytes.</param>
 		public static KeyValuePair<byte[], byte[]>? ParseToByteArrayPair(byte[] bytes)
 		{
 			int offset = 0;
 			return ParseToByteArrayPair(bytes, ref offset);
 		}
 
+		/// <summary>
+		/// Parses to byte array pair.
+		/// </summary>
+		/// <returns>The to byte array pair.</returns>
+		/// <param name="bytes">Bytes.</param>
+		/// <param name="offset">Offset.</param>
 		public static KeyValuePair<byte[], byte[]>? ParseToByteArrayPair(byte[] bytes, ref int offset)
 		{
 			var newBytes = new byte[bytes.Length - offset];
@@ -143,7 +175,11 @@ namespace O5M.Helper
 
 			return new KeyValuePair<byte[], byte[]>(keyBytes, valueBytes);
 		}
-
+		/// <summary>
+		/// Parses to UInt/String pair.
+		/// </summary>
+		/// <returns>The to user interface nt string.</returns>
+		/// <param name="stream">Stream.</param>
 		public static KeyValuePair<ulong, string>? ParseToUIntString(Stream stream)
 		{
 			var readByte = stream.ReadByte();
@@ -178,12 +214,23 @@ namespace O5M.Helper
 			return new KeyValuePair<ulong, string>(uid, name);
 		}
 
+		/// <summary>
+		/// Parses to UInt/String pair.
+		/// </summary>
+		/// <returns>The to user interface nt string.</returns>
+		/// <param name="bytes">Bytes.</param>
 		public static KeyValuePair<ulong, string>? ParseToUIntString(byte[] bytes)
 		{
 			int offset = 0;
 			return ParseToUIntString(bytes, ref offset);
 		}
 
+		/// <summary>
+		/// Parses to UInt/String pair.
+		/// </summary>
+		/// <returns>The to user interface nt string.</returns>
+		/// <param name="bytes">Bytes.</param>
+		/// <param name="offset">Offset.</param>
 		public static KeyValuePair<ulong, string>? ParseToUIntString(byte[] bytes, ref int offset)
 		{
 			var keyValuePair = ParseToByteArrayPair(bytes, ref offset);
@@ -192,13 +239,23 @@ namespace O5M.Helper
 			var name = Encoding.UTF8.GetString(keyValuePair?.Value);
 			return new KeyValuePair<ulong, string>(uid, name);
 		}
-
+		/// <summary>
+		/// Parses to type role byte array.
+		/// </summary>
+		/// <returns>The to type role byte array.</returns>
+		/// <param name="bytes">Bytes.</param>
 		public static KeyValuePair<byte[], byte[]>? ParseToTypeRoleByteArray(byte[] bytes)
 		{
 			int offset = 0;
 			return ParseToTypeRoleByteArray(bytes, ref offset);
 		}
 
+		/// <summary>
+		/// Parses to type role byte array.
+		/// </summary>
+		/// <returns>The to type role byte array.</returns>
+		/// <param name="bytes">Bytes.</param>
+		/// <param name="offset">Offset.</param>
 		public static KeyValuePair<byte[], byte[]>? ParseToTypeRoleByteArray(byte[] bytes, ref int offset)
 		{
 			if(bytes[offset] != 0) {

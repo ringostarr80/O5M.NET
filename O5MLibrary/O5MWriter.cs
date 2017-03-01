@@ -7,17 +7,30 @@ using OSMDataPrimitives;
 
 namespace O5M
 {
+	/// <summary>
+	/// O5M Writer.
+	/// </summary>
 	public class O5MWriter : O5MBase, IDisposable
 	{
 		private bool _nodesStarted = false;
 		private bool _waysStarted = false;
 		private bool _relationsStarted = false;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:O5M.O5MWriter"/> class.
+		/// </summary>
+		/// <param name="filename">Filename.</param>
+		/// <param name="header">Header.</param>
 		public O5MWriter(string filename, O5MHeader header = O5MHeader.O5M2)
 		{
 			this.Init(File.OpenWrite(filename), header);
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:O5M.O5MWriter"/> class.
+		/// </summary>
+		/// <param name="stream">Stream.</param>
+		/// <param name="header">Header.</param>
 		public O5MWriter(Stream stream, O5MHeader header = O5MHeader.O5M2)
 		{
 			this.Init(stream, header);
@@ -35,11 +48,22 @@ namespace O5M
 			this._stream.Write(headerBuffer, 0, headerBuffer.Length);
 		}
 
+		/// <summary>
+		/// Releases unmanaged resources and performs other cleanup operations before the <see cref="T:O5M.O5MWriter"/> is
+		/// reclaimed by garbage collection.
+		/// </summary>
 		~O5MWriter()
 		{
 			this.Dispose();
 		}
 
+		/// <summary>
+		/// Releases all resource used by the <see cref="T:O5M.O5MWriter"/> object.
+		/// </summary>
+		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:O5M.O5MWriter"/>. The
+		/// <see cref="Dispose"/> method leaves the <see cref="T:O5M.O5MWriter"/> in an unusable state. After calling
+		/// <see cref="Dispose"/>, you must release all references to the <see cref="T:O5M.O5MWriter"/> so the garbage
+		/// collector can reclaim the memory that the <see cref="T:O5M.O5MWriter"/> was occupying.</remarks>
 		public void Dispose()
 		{
 			if(this._stream != null) {
@@ -49,6 +73,10 @@ namespace O5M
 			}
 		}
 
+		/// <summary>
+		/// Writes the timestamp.
+		/// </summary>
+		/// <param name="timestamp">Timestamp.</param>
 		public void WriteTimestamp(DateTime timestamp)
 		{
 			this._stream.WriteByte((byte)O5MFileByteMarker.FileTimestamp);
@@ -59,6 +87,13 @@ namespace O5M
 			this._stream.Write(timestampBytes, 0, timestampBytes.Length);
 		}
 
+		/// <summary>
+		/// Writes the boundings.
+		/// </summary>
+		/// <param name="latitudeMin">Minimum Latitude.</param>
+		/// <param name="latitudeMax">Maximum Latitude.</param>
+		/// <param name="longitudeMin">Minimum Longitude.</param>
+		/// <param name="longitudeMax">Maximum Longitude.</param>
 		public void WriteBoundings(double latitudeMin, double latitudeMax, double longitudeMin, double longitudeMax)
 		{
 			this._stream.WriteByte((byte)O5MFileByteMarker.BoundingBox);
@@ -75,6 +110,10 @@ namespace O5M
 			this._stream.Write(latitudeMaxLongBytes, 0, latitudeMaxLongBytes.Length);
 		}
 
+		/// <summary>
+		/// Writes the element.
+		/// </summary>
+		/// <param name="element">Element.</param>
 		public void WriteElement(IOSMElement element)
 		{
 			if(element is OSMNode) {
@@ -87,6 +126,11 @@ namespace O5M
 		}
 
 #if DEBUG
+		/// <summary>
+		/// Writes the element.
+		/// </summary>
+		/// <param name="element">Element.</param>
+		/// <param name="writtenData">Written data.</param>
 		public void WriteElement(IOSMElement element, out byte[] writtenData)
 		{
 			writtenData = null;

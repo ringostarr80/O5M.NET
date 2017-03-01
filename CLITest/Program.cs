@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.IO;
 using OSMDataPrimitives.Xml;
@@ -16,8 +15,6 @@ namespace CLITest
 
 		public static void Main(string[] args)
 		{
-			CultureInfo.DefaultThreadCurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-
 			if(!CommandLine.Parser.Default.ParseArguments(args, _cliOptions)) {
 				Console.WriteLine("Error while parsing command line args 1.");
 				return;
