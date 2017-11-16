@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>O5MLibrary</id>
-		<version>0.1</version>
+		<version>0.2</version>
 		<title>O5MLibrary</title>
 		<authors>Ringo Leese</authors>
 		<owners>Ringo Leese</owners>
@@ -10,16 +10,16 @@
 		<projectUrl>https://github.com/ringostarr80/OSM.NET</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>This project provides reading and writing capabilities of O5M Data.</description>
-		<releaseNotes>fixed another issue in PostgreSQL Extension.</releaseNotes>
+		<releaseNotes>updated project type to .NETStandard 2.0.</releaseNotes>
 		<copyright>Copyright 2017</copyright>
 		<tags>osm o5m</tags>
 		<dependencies>
-			<dependency id="OSMDataPrimitives" version="1.0.10" />
+			<dependency id="OSMDataPrimitives" version="1.2.0" />
 		</dependencies>
 	</metadata>
 	<files>
 		<file src="..\LICENSE" target="LICENSE"/>
-		<file src="bin\Release\O5MLibrary.dll" target="lib\net4"/>
-		<file src="bin\Release\O5MLibrary.xml" target="lib\net4"/>
+		<file src="bin\Release\netstandard2.0\O5MLibrary.dll" target="lib\netstandard2.0"/>
+		<file src="bin\Release\netstandard2.0\O5MLibrary.xml" target="lib\netstandard2.0"/>
 	</files>
 </package>

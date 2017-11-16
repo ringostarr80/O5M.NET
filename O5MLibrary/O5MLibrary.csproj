@@ -1,58 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0E05943F-A05C-465F-B007-CA9819C5DF58}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>O5MLibrary</RootNamespace>
-    <AssemblyName>O5MLibrary</AssemblyName>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <NuspecFile>O5MLibrary.nuspec</NuspecFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\O5MLibrary.xml</DocumentationFile>
-    <ConsolePause>false</ConsolePause>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DocumentationFile>bin\Release\netstandard2.0\O5MLibrary.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="OSMDataPrimitives">
-      <HintPath>..\packages\OSMDataPrimitives.1.0.10\lib\net4\OSMDataPrimitives.dll</HintPath>
-    </Reference>
+    <PackageReference Include="OSMDataPrimitives" Version="1.2.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="O5MFileByteMarker.cs" />
-    <Compile Include="O5MReader.cs" />
-    <Compile Include="O5MStringPairList.cs" />
-    <Compile Include="Helper\StringPair.cs" />
-    <Compile Include="Helper\VarInt.cs" />
-    <Compile Include="Helper\VarintBitConverter.cs" />
-    <Compile Include="O5MWriter.cs" />
-    <Compile Include="O5MHeader.cs" />
-    <Compile Include="O5MBase.cs" />
-    <Compile Include="ElementDebugInfos.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helper\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="O5MLibrary.nuspec" />
-    <None Include="create_nuget_package.bat" />
-    <None Include="create_nuget_package.sh" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

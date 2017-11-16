@@ -5,32 +5,31 @@ namespace CLITest
 {
 	public class CLIOptions
 	{
-		[Option('a', "skip-nodes", DefaultValue = false, Required = false, HelpText = "skip all nodes.")]
+		[Option('a', "skip-nodes", Required = false, HelpText = "skip all nodes.")]
 		public bool SkipNodes { get; set; }
 
-		[Option('b', "skip-ways", DefaultValue = false, Required = false, HelpText = "skip all ways.")]
+		[Option('b', "skip-ways", Required = false, HelpText = "skip all ways.")]
 		public bool SkipWays { get; set; }
 
-		[Option('c', "skip-relations", DefaultValue = false, Required = false, HelpText = "skip all relations.")]
+		[Option('c', "skip-relations", Required = false, HelpText = "skip all relations.")]
 		public bool SkipRelations { get; set; }
 
-		[Option('i', "input-filename", DefaultValue = "", Required = true, HelpText = "the o5m-filename to read.")]
+		[Option('i', "input-filename", Required = true, HelpText = "the o5m-filename to read.")]
 		public string InputFilename { get; set; }
 
-		[Option('o', "output-filename", DefaultValue = "", Required = false, HelpText = "the o5m-filename to write.")]
+		[Option('o', "output-filename", Required = false, HelpText = "the o5m-filename to write.")]
 		public string OutputFilename { get; set; }
 
-		[HelpOption]
-		public string GetUsage()
+		public CLIOptions()
 		{
-			var help = new HelpText {
-				AddDashesToOption = true,
-				AdditionalNewLineAfterOption = true,
-				Copyright = new CopyrightInfo("locr GmbH", 2015, 2016)
-			};
-			help.AddOptions(this);
-
-			return help;
+			if (string.IsNullOrWhiteSpace(this.InputFilename))
+			{
+				this.InputFilename = "";
+			}
+			if (string.IsNullOrWhiteSpace(this.OutputFilename))
+			{
+				this.OutputFilename = "";
+			}
 		}
 	}
 }
