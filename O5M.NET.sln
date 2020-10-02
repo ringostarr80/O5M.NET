@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLITest", "CLITest\CLITest.csproj", "{C5359059-C46A-4F4B-A901-B4EF95EEDF17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit", "NUnit\NUnit.csproj", "{DA2E8B0B-43DE-4EE0-9532-B79DCD659575}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTests", "NUnitTests\NUnitTests.csproj", "{DA2E8B0B-43DE-4EE0-9532-B79DCD659575}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O5MLibrary", "O5MLibrary\O5MLibrary.csproj", "{0E05943F-A05C-465F-B007-CA9819C5DF58}"
 EndProject
