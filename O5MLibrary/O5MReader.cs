@@ -555,8 +555,9 @@ namespace O5M
 #endif
 						typeAndRole = StringPair.ParseToTypeRoleByteArray(data, ref bufferOffset);
 						if(typeAndRole.HasValue) {
-							if(typeAndRole?.Key.Length + typeAndRole?.Value.Length <= 250) {
-								this._storedStringPairs.Insert(0, typeAndRole.Value);
+							var typeAndRoleValue = typeAndRole.Value;
+							if(typeAndRoleValue.Key.Length + typeAndRoleValue.Value.Length <= 250) {
+								this._storedStringPairs.Insert(0, typeAndRoleValue);
 							}
 						}
 					} else {
@@ -569,9 +570,9 @@ namespace O5M
 #endif
 						typeAndRole = this._storedStringPairs[(int)storedPosition - 1];
 					}
-					if(typeAndRole.HasValue && typeAndRole?.Key.Length > 0) {
-						var typeValue = (MemberType)(typeAndRole?.Key[0] - 0x30);
-						var roleValue = Encoding.UTF8.GetString(typeAndRole?.Value);
+					if(typeAndRole?.Key.Length > 0) {
+						var typeValue = (MemberType)(typeAndRole.Value.Key[0] - 0x30);
+						var roleValue = Encoding.UTF8.GetString(typeAndRole.Value.Value);
 						o5mRelation.Members.Add(new OSMMember(typeValue, (ulong)currentReferenceId, roleValue));
 					}
 					bytesUnread = referenceLength - ((ulong)bufferOffset - (ulong)startOffset);
@@ -637,11 +638,12 @@ namespace O5M
 #endif
 				keyValuePair = StringPair.ParseToByteArrayPair(data, ref bufferOffset);
 				if(keyValuePair.HasValue) {
-					element.UserId = VarInt.ParseUInt64(keyValuePair?.Key);
-					element.UserName = Encoding.UTF8.GetString(keyValuePair?.Value);
+					var keyValuePairValue = keyValuePair.Value;
+					element.UserId = VarInt.ParseUInt64(keyValuePairValue.Key);
+					element.UserName = Encoding.UTF8.GetString(keyValuePairValue.Value);
 					if(element.UserId != 0) {
-						if(keyValuePair?.Key.Length + keyValuePair?.Value.Length <= 250) {
-							this._storedStringPairs.Insert(0, keyValuePair.Value);
+						if(keyValuePairValue.Key.Length + keyValuePairValue.Value.Length <= 250) {
+							this._storedStringPairs.Insert(0, keyValuePairValue);
 						}
 					}
 				} else {
@@ -690,9 +692,10 @@ namespace O5M
 					debugInfos.Add(keyValuePosition, "start of raw 'key/value'-pair.");
 #endif
 					if(tag.HasValue) {
-						element.Tags.Add(Encoding.UTF8.GetString(tag?.Key), Encoding.UTF8.GetString(tag?.Value));
-						if(tag?.Key.Length + tag?.Value.Length <= 250) {
-							this._storedStringPairs.Insert(0, tag.Value);
+						var tagValue = tag.Value;
+						element.Tags.Add(Encoding.UTF8.GetString(tagValue.Key), Encoding.UTF8.GetString(tagValue.Value));
+						if(tagValue.Key.Length + tagValue.Value.Length <= 250) {
+							this._storedStringPairs.Insert(0, tagValue);
 						}
 					}
 				}

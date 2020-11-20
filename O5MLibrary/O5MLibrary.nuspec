@@ -2,24 +2,27 @@
 <package>
 	<metadata>
 		<id>O5MLibrary</id>
-		<version>0.2</version>
+		<version>0.3</version>
 		<title>O5MLibrary</title>
 		<authors>Ringo Leese</authors>
 		<owners>Ringo Leese</owners>
-		<licenseUrl>https://github.com/ringostarr80/O5M.NET/blob/master/LICENSE</licenseUrl>
+		<license type="expression">CC0-1.0</license>
 		<projectUrl>https://github.com/ringostarr80/OSM.NET</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>This project provides reading and writing capabilities of O5M Data.</description>
-		<releaseNotes>updated project type to .NETStandard 2.0.</releaseNotes>
-		<copyright>Copyright 2017</copyright>
+		<releaseNotes>updated project type to .NETStandard 2.1.</releaseNotes>
+		<copyright>Copyright 2020</copyright>
 		<tags>osm o5m</tags>
 		<dependencies>
-			<dependency id="OSMDataPrimitives" version="1.2.0" />
+			<group targetFramework=".NETStandard2.1"/>
+		</dependencies>
+		<dependencies>
+			<dependency id="OSMDataPrimitives" version="1.3.0" />
 		</dependencies>
 	</metadata>
 	<files>
 		<file src="..\LICENSE" target="LICENSE"/>
-		<file src="bin\Release\netstandard2.0\O5MLibrary.dll" target="lib\netstandard2.0"/>
-		<file src="bin\Release\netstandard2.0\O5MLibrary.xml" target="lib\netstandard2.0"/>
+		<file src="bin\Release\netstandard2.1\O5MLibrary.dll" target="lib\netstandard2.1"/>
+		<file src="bin\Release\netstandard2.1\O5MLibrary.xml" target="lib\netstandard2.1"/>
 	</files>
 </package>

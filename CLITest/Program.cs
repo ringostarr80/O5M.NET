@@ -2,9 +2,10 @@
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
+
+using CommandLine;
 using OSMDataPrimitives.Xml;
 using O5M;
-using CommandLine;
 
 namespace CLITest
 {
@@ -68,10 +69,7 @@ namespace CLITest
 				if (o5mReader.FileTimestamp.HasValue)
 				{
 					Console.WriteLine("FileTimestamp: {0}", o5mReader.FileTimestamp.Value);
-					if (o5mWriter != null)
-					{
-						o5mWriter.WriteTimestamp(o5mReader.FileTimestamp.Value);
-					}
+					o5mWriter?.WriteTimestamp(o5mReader.FileTimestamp.Value);
 				}
 				if (Math.Abs(o5mReader.LatitudeMin) > double.Epsilon && Math.Abs(o5mReader.LatitudeMax) > double.Epsilon &&
 				  Math.Abs(o5mReader.LongitudeMin) > double.Epsilon && Math.Abs(o5mReader.LongitudeMax) > double.Epsilon)
@@ -82,13 +80,10 @@ namespace CLITest
 					boundings += "    LongitudeMin: " + o5mReader.LongitudeMin + "\n";
 					boundings += "    LongitudeMax: " + o5mReader.LongitudeMax + "\n";
 					Console.WriteLine(boundings);
-					if (o5mWriter != null)
-					{
-						o5mWriter.WriteBoundings(latitudeMin: o5mReader.LatitudeMin,
-												 latitudeMax: o5mReader.LatitudeMax,
-												 longitudeMin: o5mReader.LongitudeMin,
-												 longitudeMax: o5mReader.LongitudeMax);
-					}
+					o5mWriter?.WriteBoundings(latitudeMin: o5mReader.LatitudeMin,
+												latitudeMax: o5mReader.LatitudeMax,
+												longitudeMin: o5mReader.LongitudeMin,
+												longitudeMax: o5mReader.LongitudeMax);
 				}
 
 				var outputStatistics = new Action(() =>
@@ -231,9 +226,7 @@ namespace CLITest
 						nodesStarted = true;
 					}
 					nodeCounter++;
-					if(o5mWriter != null) {
-						o5mWriter.WriteElement(node);
-					}
+					o5mWriter?.WriteElement(node);
 
 					if(nodeCounter % 10000 == 0) {
 						nodesPerSecond = nodeCounter / (stopWatchNodes.ElapsedMilliseconds / 1000.0);
@@ -248,9 +241,7 @@ namespace CLITest
 						waysStarted = true;
 					}
 					wayCounter++;
-					if(o5mWriter != null) {
-						o5mWriter.WriteElement(way);
-					}
+					o5mWriter?.WriteElement(way);
 
 					if(wayCounter % 1000 == 0) {
 						waysPerSecond = wayCounter / (stopWatchNodes.ElapsedMilliseconds / 1000.0);
@@ -265,9 +256,7 @@ namespace CLITest
 						relationsStarted = true;
 					}
 					relationCounter++;
-					if(o5mWriter != null) {
-						o5mWriter.WriteElement(relation);
-					}
+					o5mWriter?.WriteElement(relation);
 
 					if(relationCounter % 1000 == 0) {
 						relationsPerSecond = relationCounter / (stopWatchNodes.ElapsedMilliseconds / 1000.0);
@@ -286,10 +275,7 @@ namespace CLITest
 				outputStatistics();
 				Console.WriteLine();
 
-				if (o5mWriter != null)
-				{
-					o5mWriter.Dispose();
-				}
+				o5mWriter?.Dispose();
 			}
 		}
 	}
