@@ -63,12 +63,12 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
 
-    - run: wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-       sudo dpkg -i packages-microsoft-prod.deb
-       sudo apt update
-       sudo apt install apt-transport-https
-       sudo apt update
-       sudo apt install dotnet-sdk-5.0
+    - run: wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+    - run: sudo dpkg -i packages-microsoft-prod.deb
+    - run: sudo apt update
+    - run: sudo apt install apt-transport-https
+    - run: sudo apt update
+    - run: sudo apt install dotnet-sdk-5.0
     #   make bootstrap
     #   make release
 
