@@ -69,6 +69,8 @@ jobs:
     - run: sudo apt install apt-transport-https
     - run: sudo apt update
     - run: sudo apt install dotnet-sdk-5.0
+    - run: |
+        dotnet build
     #   make bootstrap
     #   make release
 
