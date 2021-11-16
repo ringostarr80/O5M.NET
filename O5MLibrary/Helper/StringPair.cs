@@ -61,9 +61,13 @@ namespace O5M.Helper
 		{
 			var keyValuePair = ParseToByteArrayPair(bytes, ref offset);
 
-			var key = Encoding.UTF8.GetString(keyValuePair?.Key);
-			var value = Encoding.UTF8.GetString(keyValuePair?.Value);
-			return new KeyValuePair<string, string>(key, value);
+			if (keyValuePair.HasValue) {
+				var key = Encoding.UTF8.GetString(keyValuePair.Value.Key);
+				var value = Encoding.UTF8.GetString(keyValuePair.Value.Value);
+				return new KeyValuePair<string, string>(key, value);
+			}
+
+			return null;
 		}
 
 		/// <summary>
@@ -235,9 +239,13 @@ namespace O5M.Helper
 		{
 			var keyValuePair = ParseToByteArrayPair(bytes, ref offset);
 
-			var uid = VarInt.ParseUInt64(keyValuePair?.Key);
-			var name = Encoding.UTF8.GetString(keyValuePair?.Value);
-			return new KeyValuePair<ulong, string>(uid, name);
+			if (keyValuePair.HasValue) {
+				var uid = VarInt.ParseUInt64(keyValuePair.Value.Key);
+				var name = Encoding.UTF8.GetString(keyValuePair.Value.Value);
+				return new KeyValuePair<ulong, string>(uid, name);
+			}
+
+			return null;
 		}
 		/// <summary>
 		/// Parses to type role byte array.

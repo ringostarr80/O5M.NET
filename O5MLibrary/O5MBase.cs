@@ -20,7 +20,7 @@ namespace O5M
 		/// <summary>
 		/// The stream.
 		/// </summary>
-		protected Stream _stream = null;
+		protected Stream? _stream = null;
 		/// <summary>
 		/// The stored string pairs.
 		/// </summary>

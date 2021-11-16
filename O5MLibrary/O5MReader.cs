@@ -73,28 +73,28 @@ namespace O5M
 		/// <summary>
 		/// The found node action.
 		/// </summary>
-		public Action<OSMNode> FoundNode;
+		public Action<OSMNode>? FoundNode;
 		/// <summary>
 		/// The found way action.
 		/// </summary>
-		public Action<OSMWay> FoundWay;
+		public Action<OSMWay>? FoundWay;
 		/// <summary>
 		/// The found relation action.
 		/// </summary>
-		public Action<OSMRelation> FoundRelation;
+		public Action<OSMRelation>? FoundRelation;
 #if DEBUG
 		/// <summary>
 		/// The found node raw action.
 		/// </summary>
-		public Action<OSMNode, byte[], ElementDebugInfos> FoundNodeRaw;
+		public Action<OSMNode, byte[], ElementDebugInfos>? FoundNodeRaw;
 		/// <summary>
 		/// The found way raw action.
 		/// </summary>
-		public Action<OSMWay, byte[], ElementDebugInfos> FoundWayRaw;
+		public Action<OSMWay, byte[], ElementDebugInfos>? FoundWayRaw;
 		/// <summary>
 		/// The found relation raw action.
 		/// </summary>
-		public Action<OSMRelation, byte[], ElementDebugInfos> FoundRelationRaw;
+		public Action<OSMRelation, byte[], ElementDebugInfos>? FoundRelationRaw;
 #endif
 
 		/// <summary>
@@ -255,7 +255,7 @@ namespace O5M
 
 		private void TryParseFileTimestamp(Stream stream)
 		{
-			var markerByte = this._stream.ReadByte();
+			var markerByte = this._stream!.ReadByte();
 			if(markerByte == -1) {
 				throw new FormatException("Cannot read further to the o5m-file!");
 			}
@@ -267,7 +267,7 @@ namespace O5M
 
 			var length = VarInt.ParseUInt64(stream);
 			var buffer = new byte[length];
-			var readBytes = this._stream.Read(buffer, 0, buffer.Length);
+			var readBytes = this._stream!.Read(buffer, 0, buffer.Length);
 			if(readBytes != buffer.Length) {
 				throw new FormatException("The .o5m-file has an invalid timestamp-length!");
 			}
@@ -277,7 +277,7 @@ namespace O5M
 
 		private void TryParseBoundingBox(Stream stream)
 		{
-			var markerByte = this._stream.ReadByte();
+			var markerByte = this._stream!.ReadByte();
 			if(markerByte == -1) {
 				throw new FormatException("Cannot read further to the o5m-file!");
 			}
@@ -289,7 +289,7 @@ namespace O5M
 
 			var length = VarInt.ParseUInt64(stream);
 			var buffer = new byte[length];
-			var readBytes = this._stream.Read(buffer, 0, buffer.Length);
+			var readBytes = this._stream!.Read(buffer, 0, buffer.Length);
 			if(readBytes != buffer.Length) {
 				throw new FormatException("The .o5m-file has an invalid bounding-box-length!");
 			}
@@ -312,14 +312,14 @@ namespace O5M
 			var waysStarted = false;
 			var relationsStarted = false;
 
-			var streamLength = this._stream.Length;
+			var streamLength = this._stream!.Length;
 			var length = 0UL;
 			var elementBuffer = new byte[0];
 			var elementBufferReadBytes = 0;
 			O5MFileByteMarker marker;
 			var nextByte = 0;
 			do {
-				nextByte = this._stream.ReadByte();
+				nextByte = this._stream!.ReadByte();
 				if(nextByte == -1) {
 					break;
 				}
@@ -656,8 +656,10 @@ namespace O5M
 				var storedPosition = VarInt.ParseUInt32(data, ref bufferOffset);
 				if(this._storedStringPairs.ElementExistsAtPosition((int)storedPosition)) {
 					keyValuePair = this._storedStringPairs[(int)storedPosition - 1];
-					element.UserId = VarInt.ParseUInt64(keyValuePair?.Key);
-					element.UserName = Encoding.UTF8.GetString(keyValuePair?.Value);
+					if (keyValuePair.HasValue) {
+						element.UserId = VarInt.ParseUInt64(keyValuePair.Value.Key);
+						element.UserName = Encoding.UTF8.GetString(keyValuePair.Value.Value);
+					}
 				}
 			}
 		}

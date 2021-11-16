@@ -67,8 +67,8 @@ namespace O5M
 		public void Dispose()
 		{
 			if(this._stream != null) {
-				this._stream.WriteByte((byte)O5MFileByteMarker.EndByte);
-				this._stream.Dispose();
+				this._stream!.WriteByte((byte)O5MFileByteMarker.EndByte);
+				this._stream!.Dispose();
 				this._stream = null;
 			}
 		}
@@ -79,12 +79,12 @@ namespace O5M
 		/// <param name="timestamp">Timestamp.</param>
 		public void WriteTimestamp(DateTime timestamp)
 		{
-			this._stream.WriteByte((byte)O5MFileByteMarker.FileTimestamp);
+			this._stream?.WriteByte((byte)O5MFileByteMarker.FileTimestamp);
 			var unixTimestamp = (long)timestamp.Subtract(UNIX_START).TotalSeconds;
 			var timestampBytes = VarintBitConverter.GetVarintBytes(unixTimestamp);
 			var timestampBytesLength = VarintBitConverter.GetVarintBytes((ulong)timestampBytes.Length);
-			this._stream.Write(timestampBytesLength, 0, timestampBytesLength.Length);
-			this._stream.Write(timestampBytes, 0, timestampBytes.Length);
+			this._stream?.Write(timestampBytesLength, 0, timestampBytesLength.Length);
+			this._stream?.Write(timestampBytes, 0, timestampBytes.Length);
 		}
 
 		/// <summary>
@@ -96,18 +96,18 @@ namespace O5M
 		/// <param name="longitudeMax">Maximum Longitude.</param>
 		public void WriteBoundings(double latitudeMin, double latitudeMax, double longitudeMin, double longitudeMax)
 		{
-			this._stream.WriteByte((byte)O5MFileByteMarker.BoundingBox);
+			this._stream?.WriteByte((byte)O5MFileByteMarker.BoundingBox);
 
 			var longitudeMinLongBytes = VarintBitConverter.GetVarintBytes((long)(longitudeMin * POINT_DIVIDER));
 			var latitudeMinLongBytes = VarintBitConverter.GetVarintBytes((long)(latitudeMin * POINT_DIVIDER));
 			var longitudeMaxLongBytes = VarintBitConverter.GetVarintBytes((long)(longitudeMax * POINT_DIVIDER));
 			var latitudeMaxLongBytes = VarintBitConverter.GetVarintBytes((long)(latitudeMax * POINT_DIVIDER));
 			var boundingBytesLength = VarintBitConverter.GetVarintBytes((ulong)(longitudeMinLongBytes.Length + latitudeMinLongBytes.Length + longitudeMaxLongBytes.Length + latitudeMaxLongBytes.Length));
-			this._stream.Write(boundingBytesLength, 0, boundingBytesLength.Length);
-			this._stream.Write(longitudeMinLongBytes, 0, longitudeMinLongBytes.Length);
-			this._stream.Write(latitudeMinLongBytes, 0, latitudeMinLongBytes.Length);
-			this._stream.Write(longitudeMaxLongBytes, 0, longitudeMaxLongBytes.Length);
-			this._stream.Write(latitudeMaxLongBytes, 0, latitudeMaxLongBytes.Length);
+			this._stream?.Write(boundingBytesLength, 0, boundingBytesLength.Length);
+			this._stream?.Write(longitudeMinLongBytes, 0, longitudeMinLongBytes.Length);
+			this._stream?.Write(latitudeMinLongBytes, 0, latitudeMinLongBytes.Length);
+			this._stream?.Write(longitudeMaxLongBytes, 0, longitudeMaxLongBytes.Length);
+			this._stream?.Write(latitudeMaxLongBytes, 0, latitudeMaxLongBytes.Length);
 		}
 
 		/// <summary>
@@ -133,7 +133,7 @@ namespace O5M
 		/// <param name="writtenData">Written data.</param>
 		public void WriteElement(IOSMElement element, out byte[] writtenData)
 		{
-			writtenData = null;
+			writtenData = new byte[0];
 			if(element is OSMNode) {
 				this.WriteNode((OSMNode)element, out writtenData);
 			} else if(element is OSMWay) {
@@ -146,7 +146,7 @@ namespace O5M
 
 		private void WriteNode(OSMNode node)
 		{
-			byte[] writtenData = null;
+			byte[] writtenData = new byte[0];
 			this.WriteNode(node, out writtenData);
 		}
 
@@ -154,11 +154,11 @@ namespace O5M
 		{
 			if(!this._nodesStarted) {
 				this.Reset();
-				this._stream.WriteByte((byte)O5MFileByteMarker.Reset);
+				this._stream?.WriteByte((byte)O5MFileByteMarker.Reset);
 				this._nodesStarted = true;
 			}
 
-			this._stream.WriteByte((byte)O5MFileByteMarker.Node);
+			this._stream?.WriteByte((byte)O5MFileByteMarker.Node);
 
 			var bytes = new List<byte>();
 			var diffId = (long)node.Id - this._lastNodeId;
@@ -183,14 +183,14 @@ namespace O5M
 			this.WriteTags(node, bytes);
 
 			var length = VarintBitConverter.GetVarintBytes((ulong)bytes.Count);
-			this._stream.Write(length, 0, length.Length);
+			this._stream?.Write(length, 0, length.Length);
 			writtenData = bytes.ToArray();
-			this._stream.Write(writtenData, 0, bytes.Count);
+			this._stream?.Write(writtenData, 0, bytes.Count);
 		}
 
 		private void WriteWay(OSMWay way)
 		{
-			byte[] writtenData = null;
+			byte[] writtenData = new byte[0];
 			this.WriteWay(way, out writtenData);
 		}
 
@@ -198,11 +198,11 @@ namespace O5M
 		{
 			if(!this._waysStarted) {
 				this.Reset();
-				this._stream.WriteByte((byte)O5MFileByteMarker.Reset);
+				this._stream?.WriteByte((byte)O5MFileByteMarker.Reset);
 				this._waysStarted = true;
 			}
 
-			this._stream.WriteByte((byte)O5MFileByteMarker.Way);
+			this._stream?.WriteByte((byte)O5MFileByteMarker.Way);
 
 			var bytes = new List<byte>();
 			var diffId = (long)way.Id - this._lastWayId;
@@ -230,14 +230,14 @@ namespace O5M
 			this.WriteTags(way, bytes);
 
 			var length = VarintBitConverter.GetVarintBytes((ulong)bytes.Count);
-			this._stream.Write(length, 0, length.Length);
+			this._stream?.Write(length, 0, length.Length);
 			writtenData = bytes.ToArray();
-			this._stream.Write(writtenData, 0, bytes.Count);
+			this._stream?.Write(writtenData, 0, bytes.Count);
 		}
 
 		private void WriteRelation(OSMRelation relation)
 		{
-			byte[] writtenData = null;
+			byte[] writtenData = new byte[0];
 			this.WriteRelation(relation, out writtenData);
 		}
 
@@ -245,11 +245,11 @@ namespace O5M
 		{
 			if(!this._relationsStarted) {
 				this.Reset();
-				this._stream.WriteByte((byte)O5MFileByteMarker.Reset);
+				this._stream?.WriteByte((byte)O5MFileByteMarker.Reset);
 				this._relationsStarted = true;
 			}
 
-			this._stream.WriteByte((byte)O5MFileByteMarker.Relation);
+			this._stream?.WriteByte((byte)O5MFileByteMarker.Relation);
 
 			var bytes = new List<byte>();
 			var diffId = (long)relation.Id - this._lastRelationId;
@@ -294,9 +294,9 @@ namespace O5M
 			this.WriteTags(relation, bytes);
 
 			var length = VarintBitConverter.GetVarintBytes((ulong)bytes.Count);
-			this._stream.Write(length, 0, length.Length);
+			this._stream?.Write(length, 0, length.Length);
 			writtenData = bytes.ToArray();
-			this._stream.Write(writtenData, 0, bytes.Count);
+			this._stream?.Write(writtenData, 0, bytes.Count);
 		}
 
 		private void WriteVersionData(IOSMElement element, List<byte> bytes)
@@ -354,7 +354,10 @@ namespace O5M
 
 			foreach(string tagKey in element.Tags) {
 				var tagKeyBytes = Encoding.UTF8.GetBytes(tagKey);
-				var tagValueBytes = Encoding.UTF8.GetBytes(element.Tags[tagKey]);
+				if (element.Tags[tagKey] == null) {
+					continue;
+				}
+				var tagValueBytes = Encoding.UTF8.GetBytes(element.Tags[tagKey]!);
 				var elementPosition = this._storedStringPairs.GetElementPosition(tagKeyBytes, tagValueBytes);
 				if(elementPosition != -1) {
 					var positionBytes = VarintBitConverter.GetVarintBytes((uint)elementPosition);
