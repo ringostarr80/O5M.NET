@@ -2,16 +2,16 @@
 <package>
 	<metadata>
 		<id>O5MLibrary</id>
-		<version>0.4</version>
+		<version>0.4.1</version>
 		<title>O5MLibrary</title>
 		<authors>Ringo Leese</authors>
 		<owners>Ringo Leese</owners>
 		<license type="expression">CC0-1.0</license>
-		<projectUrl>https://github.com/ringostarr80/OSM.NET</projectUrl>
+		<projectUrl>https://github.com/ringostarr80/O5M.NET</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>This project provides reading and writing capabilities of O5M Data.</description>
 		<releaseNotes>updated project type to .NET Core 6.0.</releaseNotes>
-		<copyright>Copyright 2021</copyright>
+		<copyright>Copyright 2022</copyright>
 		<tags>osm o5m</tags>
 		<dependencies>
 			<group targetFramework="net6.0"/>
@@ -22,7 +22,7 @@
 	</metadata>
 	<files>
 		<file src="..\LICENSE" target="LICENSE"/>
-		<file src="bin\Release\net6.0\O5MLibrary.dll" target="lib\net"/>
-		<file src="bin\Release\net6.0\O5MLibrary.xml" target="lib\net"/>
+		<file src="bin\Release\net6.0\O5MLibrary.dll" target="lib/net"/>
+		<file src="bin\Release\net6.0\O5MLibrary.xml" target="lib/net"/>
 	</files>
 </package>
