@@ -1,4 +1,6 @@
 ﻿#if DEBUG
+using System.Collections.Generic;
+
 namespace O5M
 {
     /// <summary>

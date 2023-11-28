@@ -1,4 +1,8 @@
-﻿namespace O5M.Helper
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace O5M.Helper
 {
     /// <summary>
     /// Variable int.

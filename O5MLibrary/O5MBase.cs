@@ -1,4 +1,7 @@
-﻿namespace O5M
+﻿using System;
+using System.IO;
+
+namespace O5M
 {
     /// <summary>
     /// O5MBase.
@@ -17,7 +20,7 @@
         /// <summary>
         /// The stream.
         /// </summary>
-        protected Stream? _stream = null;
+        protected Stream _stream = null;
         /// <summary>
         /// The stored string pairs.
         /// </summary>

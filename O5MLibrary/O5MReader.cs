@@ -73,28 +73,28 @@ namespace O5M
         /// <summary>
         /// The found node action.
         /// </summary>
-        public Action<OSMNode>? FoundNode;
+        public Action<OSMNode> FoundNode;
         /// <summary>
         /// The found way action.
         /// </summary>
-        public Action<OSMWay>? FoundWay;
+        public Action<OSMWay> FoundWay;
         /// <summary>
         /// The found relation action.
         /// </summary>
-        public Action<OSMRelation>? FoundRelation;
+        public Action<OSMRelation> FoundRelation;
 #if DEBUG
         /// <summary>
         /// The found node raw action.
         /// </summary>
-        public Action<OSMNode, byte[], ElementDebugInfos>? FoundNodeRaw;
+        public Action<OSMNode, byte[], ElementDebugInfos> FoundNodeRaw;
         /// <summary>
         /// The found way raw action.
         /// </summary>
-        public Action<OSMWay, byte[], ElementDebugInfos>? FoundWayRaw;
+        public Action<OSMWay, byte[], ElementDebugInfos> FoundWayRaw;
         /// <summary>
         /// The found relation raw action.
         /// </summary>
-        public Action<OSMRelation, byte[], ElementDebugInfos>? FoundRelationRaw;
+        public Action<OSMRelation, byte[], ElementDebugInfos> FoundRelationRaw;
 #endif
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿namespace O5M.Helper
+﻿using System;
+
+namespace O5M.Helper
 {
     /// <summary>
     /// Varint bit converter.
