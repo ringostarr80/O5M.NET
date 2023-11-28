@@ -2,6 +2,7 @@
 ![codeql_analysis](https://img.shields.io/github/actions/workflow/status/ringostarr80/O5M.NET/codeql-analysis.yml)
 ![nuget_version](https://img.shields.io/nuget/v/O5MLibrary)
 ![github_tag](https://img.shields.io/github/v/tag/ringostarr80/O5M.NET?sort=semver)
+[![codecov](https://codecov.io/gh/ringostarr80/O5M.NET/graph/badge.svg?token=7J64CBACA6)](https://codecov.io/gh/ringostarr80/O5M.NET)
 
 # O5M.NET
 This project provides reading and writing capabilities of O5M Data.
