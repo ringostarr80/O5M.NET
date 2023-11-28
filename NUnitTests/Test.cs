@@ -14,13 +14,13 @@ namespace NUnit
             memoryStream.Write(new byte[] { 0xAC, 0x02 }, 0, 2);
             memoryStream.Position = 0;
             var result = VarInt.ParseUInt64(memoryStream);
-            Assert.AreEqual(300, result);
+            Assert.That(result, Is.EqualTo(300));
 
             memoryStream.Position = 0;
             memoryStream.Write(new byte[] { 0x96, 0x01 }, 0, 2);
             memoryStream.Position = 0;
             result = VarInt.ParseUInt64(memoryStream);
-            Assert.AreEqual(150, result);
+            Assert.That(result, Is.EqualTo(150));
         }
 
         [Test]
@@ -31,8 +31,8 @@ namespace NUnit
             memoryStream.Write(data, 0, data.Length);
             memoryStream.Position = 0;
             var result = StringPair.ParseToUIntString(memoryStream);
-            Assert.AreEqual(45445, result?.Key);
-            Assert.AreEqual("UScha", result?.Value);
+            Assert.That(result?.Key, Is.EqualTo(45445));
+            Assert.That(result?.Value, Is.EqualTo("UScha"));
         }
     }
 }
