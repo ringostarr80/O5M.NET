@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSMDataPrimitives" Version="2.1.3" />
+    <PackageReference Include="OSMDataPrimitives" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
