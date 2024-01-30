@@ -398,14 +398,14 @@ namespace O5M
                 return;
             }
 
-            foreach (string tagKey in element.Tags)
+            foreach (var tag in element.Tags)
             {
-                var tagKeyBytes = Encoding.UTF8.GetBytes(tagKey);
-                if (element.Tags[tagKey] == null)
+                var tagKeyBytes = Encoding.UTF8.GetBytes(tag.Key);
+                if (tag.Value == null)
                 {
                     continue;
                 }
-                var tagValueBytes = Encoding.UTF8.GetBytes(element.Tags[tagKey]!);
+                var tagValueBytes = Encoding.UTF8.GetBytes(tag.Value);
                 var elementPosition = this._storedStringPairs.GetElementPosition(tagKeyBytes, tagValueBytes);
                 if (elementPosition != -1)
                 {
