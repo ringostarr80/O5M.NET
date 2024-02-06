@@ -518,7 +518,7 @@ namespace O5M
                 while (bytesUnread > 0)
                 {
                     var currentReferenceId = VarInt.ParseInt64(referenceNodesBuffer, ref referenceBufferOffset) + this._lastReferenceId;
-                    o5mWay.NodeRefs.Add((ulong)currentReferenceId);
+                    o5mWay.NodeRefs.Add(currentReferenceId);
                     this._lastReferenceId = currentReferenceId;
                     bytesUnread = referenceNodesBuffer.Length - referenceBufferOffset;
                 }
