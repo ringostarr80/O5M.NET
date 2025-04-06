@@ -1,5 +1,5 @@
 ![license](https://img.shields.io/github/license/ringostarr80/O5M.NET)
-![codeql_analysis](https://img.shields.io/github/actions/workflow/status/ringostarr80/O5M.NET/codeql-analysis.yml)
+![codeql_analysis](https://github.com/ringostarr80/O5M.NET/actions/workflows/github-code-scanning/codeql)
 ![nuget_version](https://img.shields.io/nuget/v/O5MLibrary)
 ![github_tag](https://img.shields.io/github/v/tag/ringostarr80/O5M.NET?sort=semver)
 [![codecov](https://codecov.io/gh/ringostarr80/O5M.NET/graph/badge.svg?token=7J64CBACA6)](https://codecov.io/gh/ringostarr80/O5M.NET)
