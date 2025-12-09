@@ -127,17 +127,17 @@ namespace O5M
         /// Writes the element.
         /// </summary>
         /// <param name="element">Element.</param>
-        public void WriteElement(IOSMElement element)
+        public void WriteElement(IOsmElement element)
         {
-            if (element is OSMNode node)
+            if (element is OsmNode node)
             {
                 this.WriteNode(node);
             }
-            else if (element is OSMWay way)
+            else if (element is OsmWay way)
             {
                 this.WriteWay(way);
             }
-            else if (element is OSMRelation relation)
+            else if (element is OsmRelation relation)
             {
                 this.WriteRelation(relation);
             }
@@ -149,31 +149,31 @@ namespace O5M
         /// </summary>
         /// <param name="element">Element.</param>
         /// <param name="writtenData">Written data.</param>
-        public void WriteElement(IOSMElement element, out byte[] writtenData)
+        public void WriteElement(IOsmElement element, out byte[] writtenData)
         {
             writtenData = Array.Empty<byte>();
-            if (element is OSMNode node)
+            if (element is OsmNode node)
             {
                 this.WriteNode(node, out writtenData);
             }
-            else if (element is OSMWay way)
+            else if (element is OsmWay way)
             {
                 this.WriteWay(way, out writtenData);
             }
-            else if (element is OSMRelation relation)
+            else if (element is OsmRelation relation)
             {
                 this.WriteRelation(relation, out writtenData);
             }
         }
 #endif
 
-        private void WriteNode(OSMNode node)
+        private void WriteNode(OsmNode node)
         {
             var _ = Array.Empty<byte>();
             this.WriteNode(node, out _);
         }
 
-        private void WriteNode(OSMNode node, out byte[] writtenData)
+        private void WriteNode(OsmNode node, out byte[] writtenData)
         {
             if (!this._nodesStarted)
             {
@@ -212,13 +212,13 @@ namespace O5M
             this._stream?.Write(writtenData, 0, bytes.Count);
         }
 
-        private void WriteWay(OSMWay way)
+        private void WriteWay(OsmWay way)
         {
             byte[] _ = Array.Empty<byte>();
             this.WriteWay(way, out _);
         }
 
-        private void WriteWay(OSMWay way, out byte[] writtenData)
+        private void WriteWay(OsmWay way, out byte[] writtenData)
         {
             if (!this._waysStarted)
             {
@@ -264,13 +264,13 @@ namespace O5M
             this._stream?.Write(writtenData, 0, bytes.Count);
         }
 
-        private void WriteRelation(OSMRelation relation)
+        private void WriteRelation(OsmRelation relation)
         {
             byte[] _ = Array.Empty<byte>();
             this.WriteRelation(relation, out _);
         }
 
-        private void WriteRelation(OSMRelation relation, out byte[] writtenData)
+        private void WriteRelation(OsmRelation relation, out byte[] writtenData)
         {
             if (!this._relationsStarted)
             {
@@ -337,7 +337,7 @@ namespace O5M
             this._stream?.Write(writtenData, 0, bytes.Count);
         }
 
-        private void WriteVersionData(IOSMElement element, List<byte> bytes)
+        private void WriteVersionData(IOsmElement element, List<byte> bytes)
         {
             if (element.Version == 0)
             {
@@ -391,7 +391,7 @@ namespace O5M
             }
         }
 
-        private void WriteTags(IOSMElement element, List<byte> bytes)
+        private void WriteTags(IOsmElement element, List<byte> bytes)
         {
             if (element.Tags.Count == 0)
             {
