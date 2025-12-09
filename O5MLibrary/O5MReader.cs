@@ -73,28 +73,28 @@ namespace O5M
         /// <summary>
         /// The found node action.
         /// </summary>
-        public Action<OSMNode> FoundNode;
+        public Action<OsmNode> FoundNode;
         /// <summary>
         /// The found way action.
         /// </summary>
-        public Action<OSMWay> FoundWay;
+        public Action<OsmWay> FoundWay;
         /// <summary>
         /// The found relation action.
         /// </summary>
-        public Action<OSMRelation> FoundRelation;
+        public Action<OsmRelation> FoundRelation;
 #if DEBUG
         /// <summary>
         /// The found node raw action.
         /// </summary>
-        public Action<OSMNode, byte[], ElementDebugInfos> FoundNodeRaw;
+        public Action<OsmNode, byte[], ElementDebugInfos> FoundNodeRaw;
         /// <summary>
         /// The found way raw action.
         /// </summary>
-        public Action<OSMWay, byte[], ElementDebugInfos> FoundWayRaw;
+        public Action<OsmWay, byte[], ElementDebugInfos> FoundWayRaw;
         /// <summary>
         /// The found relation raw action.
         /// </summary>
-        public Action<OSMRelation, byte[], ElementDebugInfos> FoundRelationRaw;
+        public Action<OsmRelation, byte[], ElementDebugInfos> FoundRelationRaw;
 #endif
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace O5M
         /// On node found.
         /// </summary>
         /// <param name="node">Node.</param>
-        protected void OnNodeFound(OSMNode node)
+        protected void OnNodeFound(OsmNode node)
         {
             this.FoundNode?.Invoke(node);
         }
@@ -211,7 +211,7 @@ namespace O5M
         /// <param name="node">Node.</param>
         /// <param name="rawData">Raw data.</param>
         /// <param name="infos">Infos.</param>
-        protected void OnNodeFound(OSMNode node, byte[] rawData, ElementDebugInfos infos)
+        protected void OnNodeFound(OsmNode node, byte[] rawData, ElementDebugInfos infos)
         {
             this.FoundNodeRaw?.Invoke(node, rawData, infos);
         }
@@ -221,7 +221,7 @@ namespace O5M
         /// On way found.
         /// </summary>
         /// <param name="way">Way.</param>
-        protected void OnWayFound(OSMWay way)
+        protected void OnWayFound(OsmWay way)
         {
             this.FoundWay?.Invoke(way);
         }
@@ -233,7 +233,7 @@ namespace O5M
         /// <param name="way">Way.</param>
         /// <param name="rawData">Raw data.</param>
         /// <param name="infos">Infos.</param>
-        protected void OnWayFound(OSMWay way, byte[] rawData, ElementDebugInfos infos)
+        protected void OnWayFound(OsmWay way, byte[] rawData, ElementDebugInfos infos)
         {
             this.FoundWayRaw?.Invoke(way, rawData, infos);
         }
@@ -243,7 +243,7 @@ namespace O5M
         /// On relation found.
         /// </summary>
         /// <param name="relation">Relation.</param>
-        protected void OnRelationFound(OSMRelation relation)
+        protected void OnRelationFound(OsmRelation relation)
         {
             this.FoundRelation?.Invoke(relation);
         }
@@ -255,7 +255,7 @@ namespace O5M
         /// <param name="relation">Relation.</param>
         /// <param name="rawData">Raw data.</param>
         /// <param name="infos">Infos.</param>
-        protected void OnRelationFound(OSMRelation relation, byte[] rawData, ElementDebugInfos infos)
+        protected void OnRelationFound(OsmRelation relation, byte[] rawData, ElementDebugInfos infos)
         {
             this.FoundRelationRaw?.Invoke(relation, rawData, infos);
         }
@@ -453,7 +453,7 @@ namespace O5M
             this._stop = true;
         }
 
-        private OSMNode ParseNodeData(
+        private OsmNode ParseNodeData(
             byte[] data
 #if DEBUG
             , ElementDebugInfos debugInfos
@@ -463,7 +463,7 @@ namespace O5M
             var bufferOffset = 0;
 
             var nodeId = VarInt.ParseInt64(data, ref bufferOffset) + this._lastNodeId;
-            var o5mNode = new OSMNode((ulong)nodeId);
+            var o5mNode = new OsmNode((ulong)nodeId);
             this._lastNodeId = (long)o5mNode.Id;
 
 #if DEBUG
@@ -489,7 +489,7 @@ namespace O5M
             return o5mNode;
         }
 
-        private OSMWay ParseWayData(
+        private OsmWay ParseWayData(
             byte[] data
 #if DEBUG
             , ElementDebugInfos debugInfos
@@ -499,7 +499,7 @@ namespace O5M
             var bufferOffset = 0;
 
             var wayId = VarInt.ParseInt64(data, ref bufferOffset) + this._lastWayId;
-            var o5mWay = new OSMWay((ulong)wayId);
+            var o5mWay = new OsmWay((ulong)wayId);
             this._lastWayId = (long)o5mWay.Id;
 
 #if DEBUG
@@ -534,7 +534,7 @@ namespace O5M
             return o5mWay;
         }
 
-        private OSMRelation ParseRelationData(
+        private OsmRelation ParseRelationData(
             byte[] data
 #if DEBUG
             , ElementDebugInfos debugInfos
@@ -550,7 +550,7 @@ namespace O5M
 #if DEBUG
             debugInfos.Add(idPosition, "start of 'id' (" + relationId + ").");
 #endif
-            var o5mRelation = new OSMRelation((ulong)relationId);
+            var o5mRelation = new OsmRelation((ulong)relationId);
             this._lastRelationId = (long)o5mRelation.Id;
 
 #if DEBUG
@@ -611,7 +611,7 @@ namespace O5M
                     {
                         var typeValue = (MemberType)(typeAndRole.Value.Key[0] - 0x30);
                         var roleValue = Encoding.UTF8.GetString(typeAndRole.Value.Value);
-                        o5mRelation.Members.Add(new OSMMember(typeValue, (ulong)currentReferenceId, roleValue));
+                        o5mRelation.Members.Add(new OsmMember(typeValue, (ulong)currentReferenceId, roleValue));
                     }
                     bytesUnread = referenceLength - ((ulong)bufferOffset - (ulong)startOffset);
                 }
@@ -628,7 +628,7 @@ namespace O5M
 
         private void ParseVersionData(
             byte[] data,
-            OSMElement element,
+            OsmElement element,
             ref int bufferOffset
 #if DEBUG
             , ElementDebugInfos debugInfos
@@ -716,7 +716,7 @@ namespace O5M
 
         private void ParseTagsData(
             byte[] data,
-            OSMElement element,
+            OsmElement element,
             ref int bufferOffset
 #if DEBUG
             , ElementDebugInfos debugInfos
