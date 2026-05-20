@@ -32,9 +32,13 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --framework=net${{ matrix.dotnet }} --no-restore
+      env:
+        DOTNET_VERSION: ${{ matrix.dotnet }}
+      run: dotnet build --framework="net${DOTNET_VERSION}" --no-restore
     - name: Test
-      run: dotnet test --framework=net${{ matrix.dotnet }} --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      env:
+        DOTNET_VERSION: ${{ matrix.dotnet }}
+      run: dotnet test --framework="net${DOTNET_VERSION}" --no-build --verbosity normal --collect:"XPlat Code Coverage"
     - name: Upload coverage reports to Codecov
       if: ${{ matrix.dotnet == '8.0' }}
       uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
