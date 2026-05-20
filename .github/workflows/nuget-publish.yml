@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: Build and Publish NuGet Package
     runs-on: ubuntu-latest
     permissions:
       contents: read  # Required by actions/checkout to read the repository
