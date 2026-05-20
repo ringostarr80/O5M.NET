@@ -1,20 +1,29 @@
 name: Publish to NuGet
 
-permissions:
-  contents: read
-  pull-requests: write
+permissions: {}
 
 on:
   push:
     tags:
       - '*'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
+    name: Build and Publish NuGet Package
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read  # Required by actions/checkout to read the repository
+      id-token: write  # Required for OIDC token exchange with nuget.org Trusted Publishing
 
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
 
     - name: Extract version from tag
       run: echo "PACKAGE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
@@ -36,5 +45,13 @@ jobs:
     - name: Pack
       run: dotnet pack -c Release -o out -p:Version=$PACKAGE_VERSION -p:ContinuousIntegrationBuild=true
 
+    - name: NuGet login (OIDC -> short-lived API key)
+      id: nuget-login
+      uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
     - name: Publish to NuGet
-      run: dotnet nuget push out/O5MLibrary.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+      env:
+        NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+      run: dotnet nuget push out/O5MLibrary.*.nupkg -k "$NUGET_API_KEY" -s https://api.nuget.org/v3/index.json
